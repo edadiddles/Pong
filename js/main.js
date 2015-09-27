@@ -1,27 +1,13 @@
 var canvas;
 var ctx;
 
+var ball = new Ball;
+var player = new Paddle;
+var computer = new Paddle;
 
-
-var player_paddle;
-var ball;
-var computer_paddle;
 
 var paddle_height = 200;
 var paddle_width = 25;
-
-var player_x;
-var player_y;
-
-var d_ball;
-var pos_ball;
-
-var ang_ball;
-var v_ball;
-
-var computer_x;
-var computer_y;
-
 
 var lastFrameTimeMs = 0;
 var maxFPS = 60;
@@ -30,71 +16,61 @@ $(document).ready(function() {
 	canvas = document.getElementById('board');
 	ctx = canvas.getContext('2d');
 
-	player_x = 0;
-	player_y = 0;
 
-	d_ball = 50;
-	pos_ball = [canvas.width/2, canvas.height/2];
+    // Ball Initialization
+    ball.setPosition(canvas.width/2, canvas.height/2);
 
 	ang_ball = Math.random() * 2*Math.PI;
-	v_ball = [1000*Math.cos(ang_ball), 1000*Math.sin(ang_ball)]; 
+	ball.setVelocity(1000*Math.cos(ang_ball), 1000*Math.sin(ang_ball)); 
 
-	computer_x = canvas.width - 25;
-	computer_y = canvas.height/2;
+    ball.img.onload = function() {
+        ball.draw(ctx);
+    }
+    ball.setImage("img/ball.png");
 
 
 
-	ball = new Image();
 
-	ball.onload = function () {
-		ctx.drawImage(ball, pos_ball[0], pos_ball[1]);
+    // Player Initialization
+    player.setPosition(0, 0);
+    
+    player.img.onload = function() {
+        player.draw(ctx);
+    }
+    player.setImage("img/paddle.png");    
+
+
+
+
+    // Computer Initialization
+    computer.setPosition(canvas.width - 25, canvas.height/2);
+
+	computer.img.onload = function() {
+		computer.draw(ctx);
 	}
-	ball.src = 'img/ball.png';
-
-
-	player_paddle = new Image();
-
-	player_paddle.onload = function() {
-		if(player_y > canvas.height - player_paddle.height)
-			ctx.drawImage(player_paddle, player_x, canvas.height - paddle_height);
-		else if(player_y < 0)
-			ctx.drawImage(player_paddle, player_x, 0);
-		else
-			ctx.drawImage(player_paddle, player_x, player_y);
-	}
-	player_paddle.src = 'img/paddle.png';
-
-
-
-	computer_paddle = new Image();
-
-	computer_paddle.onload = function() {
-		if(computer_y > canvas.height - computer_paddle.height)
-			ctx.drawImage(computer_paddle, computer_x, canvas.height - paddle_height);
-		else if(computer_y < 0)
-			ctx.drawImage(computer_paddle, computer_x, 0);
-		else
-			ctx.drawImage(computer_paddle, computer_x, computer_y);
-	}
-	computer_paddle.src = "img/paddle.png";
+	computer.setImage("img/paddle.png");
 
 
 	
 	requestAnimationFrame(mainLoop);
 
 	$('#board').mousemove(function(event) {
-		player_y = event.pageY - paddle_height/2;
+		player.y = event.pageY - paddle_height/2;
 	});
 });
 
 function buildcanvas() {
 	ctx.save();
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
-	updateBall();
-	updateComputer();
-	drawPlayerPaddle();
-	drawBall();
-	drawComputerPaddle();
+	
+    ball.update();
+	
+	
+	ball.draw(ctx);
+    player.draw(ctx);
+    computer.draw(ctx);
+
+
 	ctx.restore();
 }
 

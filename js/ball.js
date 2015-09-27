@@ -1,4 +1,4 @@
-function Ball() = function() {
+function Ball() {
     this.pos = new Vector;
 
     this.vel = new Vector;
@@ -7,19 +7,19 @@ function Ball() = function() {
 }
 
 Ball.prototype.setPosition = function(x,y,z) {
-    this.pos.x = typeof x !== 'undefined' ? pos.x: null;
-    this.pos.y = typeof y !== 'undefined' ? pos.y: null;
-    this.pos.z = typeof z !== 'undefined' ? pos.z: null;
+    this.pos.x = typeof x !== 'undefined' ? x: null;
+    this.pos.y = typeof y !== 'undefined' ? y: null;
+    this.pos.z = typeof z !== 'undefined' ? z: null;
 }
 
 Ball.prototype.setVelocity = function(x,y,z) {
-    this.vel.x = typeof x !== 'undefined' ? vel.x: null;
-    this.vel.y = typeof y !== 'undefined' ? vel.y: null;
-    this.vel.z = typeof z !== 'undefined' ? vel.z: null;
+    this.vel.x = typeof x !== 'undefined' ? x: null;
+    this.vel.y = typeof y !== 'undefined' ? y: null;
+    this.vel.z = typeof z !== 'undefined' ? z: null;
 }
 
 Ball.prototype.setImage = function(src) {
-    this.img.src = typeof src !== 'undefined' ? img.src: null;
+    this.img.src = typeof src !== 'undefined' ? src: null;
 }
 
 Ball.prototype.update = function() {
@@ -27,4 +27,6 @@ Ball.prototype.update = function() {
     this.pos = this.pos.add(v);
 }
 
-Ball.prototype.draw() = function() {}
+Ball.prototype.draw = function(ctx) {
+   ctx.drawImage(this.img, this.pos.x, this.pos.y) 
+}
