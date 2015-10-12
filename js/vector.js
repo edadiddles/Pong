@@ -1,11 +1,26 @@
 function Vector(x, y, z) {
-    this.x = typeof x !== 'undefined' ? x: null;
-    this.y = typeof y !== 'undefined' ? y: null;
-    this.z = typeof z !== 'undefined' ? z: null;
+    this.x = typeof x !== 'undefined' ? x : null;
+    this.y = typeof y !== 'undefined' ? y : null;
+    this.z = typeof z !== 'undefined' ? z : null;
 }
 
 Vector.prototype.mag = function() {
     return Math.sqrt( this.dot(this) );
+}
+
+Vector.prototype.angle = function() {
+    var ang = Math.atan(this.y/this.x);
+
+    if(this.x > 0 && this.y > 0)
+        ang += 0;
+    if(this.x < 0 && this.y > 0)
+        ang += Math.PI;
+    if(this.x < 0 && this.y < 0)
+        ang += Math.PI;
+    if(this.x > 0 && this.y < 0)
+        ang += 0;
+
+    return ang;
 }
 
 Vector.prototype.add = function(vec) { 
